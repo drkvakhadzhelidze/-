@@ -512,8 +512,8 @@ function buildSummary() {
   s += `\n${'─'.repeat(40)}\nДата заполнения: ${new Date().toLocaleDateString('ru-RU')}`;
   return s;
 }
-
-async function submitForm() {
+ 
+  function submitForm() {
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.textContent = 'Отправляем…';
@@ -527,7 +527,7 @@ async function submitForm() {
   data.append('answers', summary);
 
   try {
-    const res = await fetch('https://formspree.io/f/xeerqoep', {
+    const res = await fetch(mailto:dr.kvakhadzhelidze@gmail.com, {
       method: 'POST',
       body: data,
       headers: { 'Accept': 'application/json' }
