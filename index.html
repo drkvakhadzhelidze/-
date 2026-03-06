@@ -512,40 +512,18 @@ function buildSummary() {
   s += `\n${'─'.repeat(40)}\nДата заполнения: ${new Date().toLocaleDateString('ru-RU')}`;
   return s;
 }
- 
-  function submitForm() {
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Отправляем…';
-  document.getElementById('sending').classList.add('show');
 
+function submitForm() {
   const summary = buildSummary();
-
-  // Build form data for Formspree
-  const data = new FormData();
-  data.append('_subject', 'Анкета пациента — ' + (document.getElementById('p_fname')?.value||'') + ' ' + (document.getElementById('p_lname')?.value||''));
-  data.append('answers', summary);
-
-  try {
-    const res = await fetch(mailto:dr.kvakhadzhelidze@gmail.com, {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    });
-    document.getElementById('sending').classList.remove('show');
-    if (res.ok) {
-      document.getElementById('succ').classList.add('show');
-    } else {
-      btn.disabled = false;
-      btn.textContent = 'Отправить анкету врачу';
-      alert('Что-то пошло не так. Пожалуйста, попробуйте ещё раз.');
-    }
-  } catch(e) {
-    document.getElementById('sending').classList.remove('show');
-    btn.disabled = false;
-    btn.textContent = 'Отправить анкету врачу';
-    alert('Нет интернета. Проверьте соединение и попробуйте снова.');
-  }
+  const fname = document.getElementById('p_fname')?.value||'';
+  const lname = document.getElementById('p_lname')?.value||'';
+  const name = (fname + ' ' + lname).trim();
+  const subject = encodeURIComponent('Анкета пациента — ' + name);
+  const body = encodeURIComponent(summary);
+  window.location.href = 'mailto:dr.kvakhadzhelidze@gmail.com?subject=' + subject + '&body=' + body;
+  setTimeout(function() {
+    document.getElementById('succ').classList.add('show');
+  }, 1500);
 }
 
 function closeModal() {}
